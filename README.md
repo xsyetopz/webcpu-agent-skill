@@ -44,3 +44,7 @@ Installable self-contained bundles:
 ## Grounding contract
 
 Use `@xsyetopz/easel@0.4.5` as the baseline. If a requested API is not in `source/skills/webcpu-easel/reference/api-index.md` or `class-signatures.md`, inspect installed package types before generating code. If still absent, say `UNKNOWN` with the missing symbol or behavior instead of inventing an API.
+
+# License
+
+[MIT](LICENSE)
