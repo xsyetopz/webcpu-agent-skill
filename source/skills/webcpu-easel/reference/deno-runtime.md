@@ -47,6 +47,26 @@ import * as EASEL from "@xsyetopz/easel";
 const canvas = document.querySelector<HTMLCanvasElement>("#scene");
 if (!canvas) throw new Error("Missing #scene canvas");
 
+type RenderableScene = {
+	children: EASEL.Scene["children"];
+	visible: EASEL.Scene["visible"];
+	background?: EASEL.Color | number | undefined;
+	autoUpdate?: EASEL.Scene["autoUpdate"];
+	lights?: unknown;
+	fog?: EASEL.Fog;
+};
+
+function renderScene(renderer: EASEL.Renderer, scene: EASEL.Scene, camera: EASEL.PerspectiveCamera): void {
+	const renderableScene: RenderableScene = {
+		children: scene.children,
+		visible: scene.visible,
+		background: scene.background,
+		autoUpdate: scene.autoUpdate,
+	};
+	if (scene.fog !== undefined) renderableScene.fog = scene.fog;
+	renderer.render(renderableScene, camera);
+}
+
 const renderer = new EASEL.Renderer({ width: 320, height: 180, canvas });
 const scene = new EASEL.Scene();
 const camera = new EASEL.PerspectiveCamera({ fov: 60, aspect: 320 / 180, near: 0.1, far: 100 });
@@ -55,12 +75,16 @@ camera.position.set(2, 2, 4);
 camera.lookAt(0, 0, 0);
 scene.add(new EASEL.Mesh(new EASEL.BoxGeometry(1, 1, 1), new EASEL.BasicMaterial({ color: 0x66ccff })));
 
-function frame() {
-	renderer.render(scene, camera);
+function frame(): void {
+	renderScene(renderer, scene, camera);
 	requestAnimationFrame(frame);
 }
 frame();
 ```
+
+## Strict Deno Type Boundary
+
+Deno projects may enable `exactOptionalPropertyTypes`. With `@xsyetopz/easel@0.4.5`, `Scene.fog` is declared as `Fog | undefined`, while `Renderer.render()` accepts an internal `SceneLike` where `fog` is optional. Under exact optional property semantics, pass a local render-boundary object that omits `fog` when it is undefined. This is a declaration compatibility shim only; scene authoring still uses `new EASEL.Scene()`.
 
 ## Validate
 

@@ -1,5 +1,29 @@
 import * as EASEL from "@xsyetopz/easel";
 
+type RenderableScene = {
+	children: EASEL.Scene["children"];
+	visible: EASEL.Scene["visible"];
+	background?: EASEL.Color | number | undefined;
+	autoUpdate?: EASEL.Scene["autoUpdate"];
+	lights?: unknown;
+	fog?: EASEL.Fog;
+};
+
+function renderScene(
+	renderer: EASEL.Renderer,
+	scene: EASEL.Scene,
+	camera: EASEL.PerspectiveCamera,
+): void {
+	const renderableScene: RenderableScene = {
+		children: scene.children,
+		visible: scene.visible,
+		background: scene.background,
+		autoUpdate: scene.autoUpdate,
+	};
+	if (scene.fog !== undefined) renderableScene.fog = scene.fog;
+	renderer.render(renderableScene, camera);
+}
+
 const canvas = document.querySelector<HTMLCanvasElement>("#scene");
 if (!canvas) throw new Error("Missing #scene canvas");
 
@@ -23,10 +47,10 @@ const cube = new EASEL.Mesh(
 scene.add(cube);
 console.log(EASEL.REVISION);
 
-function frame() {
+function frame(): void {
 	cube.rotation.y += 0.02;
 	scene.updateMatrixWorld();
-	renderer.render(scene, camera);
+	renderScene(renderer, scene, camera);
 	requestAnimationFrame(frame);
 }
 

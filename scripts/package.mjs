@@ -6,7 +6,26 @@ const ROOT = dirname(dirname(fileURLToPath(import.meta.url)));
 const SOURCE_SKILL = join(ROOT, "source/skills/webcpu-easel");
 const GENERATED = join(ROOT, ".build/generated");
 const DIST = join(ROOT, "dist");
+const LLMS_BUILD = join(ROOT, ".build/llms");
 const NAME = "webcpu-easel";
+const INSTRUCTION_SURFACES = [
+	"AGENTS.md",
+	"CLAUDE.md",
+	"GEMINI.md",
+	"llms.txt",
+	"llms-full.txt",
+	".github/copilot-instructions.md",
+	".cursor/rules/webcpu-easel.mdc",
+	".rules",
+	".aiassistant/rules/webcpu-easel.md",
+	".junie/AGENTS.md",
+	".clinerules/00-webcpu-easel.md",
+	".roo/rules/00-webcpu-easel.md",
+	".augment/rules/webcpu-easel.md",
+	"docs/agent-platforms.md",
+	"CONTRIBUTING.md",
+	"CODE_OF_CONDUCT.md",
+];
 
 /** @param {string} path @returns {Promise<boolean>} */
 async function exists(path) {
@@ -38,9 +57,22 @@ async function packageSkill(skillDir) {
 	}
 }
 
+async function packageInstructionSurfaces() {
+	for (const path of INSTRUCTION_SURFACES) {
+		await copy(join(ROOT, path), join(DIST, path));
+	}
+	await copy(LLMS_BUILD, join(DIST, "llms"));
+}
+
 async function main() {
 	if (!(await exists(join(GENERATED, "claude/skills", NAME, "SKILL.md")))) {
 		throw new Error("Run `bun run generate` before `bun run package`.");
+	}
+	if (!(await exists(join(LLMS_BUILD, "llms-ctx.txt")))) {
+		throw new Error("Run `bun run generate:llms` before `bun run package`.");
+	}
+	if (!(await exists(join(ROOT, "GEMINI.md")))) {
+		throw new Error("Run `bun run generate:agents` before `bun run package`.");
 	}
 	await rm(DIST, { recursive: true, force: true });
 	await copy(GENERATED, DIST);
@@ -76,6 +108,7 @@ async function main() {
 	);
 	const readme = await readFile(join(ROOT, "README.md"), "utf8");
 	await write(join(DIST, "README.md"), readme);
+	await packageInstructionSurfaces();
 	console.log(`Packaged self-contained bundles in ${DIST}`);
 }
 

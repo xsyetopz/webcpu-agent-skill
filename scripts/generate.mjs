@@ -106,6 +106,33 @@ async function generatePluginMetadata() {
 			"\t",
 		)}\n`,
 	);
+
+	await write(
+		join(OUT, "claude/.claude-plugin/marketplace.json"),
+		`${JSON.stringify(
+			{
+				name: "webcpu-agent-skill",
+				owner: { name: "xsyetopz" },
+				plugins: [
+					{
+						name: "webcpu-agent-skill",
+						source: "./",
+						description: "EASEL.js CPU renderer skill for Claude Code",
+						version: "0.1.0",
+						keywords: [
+							"skills",
+							"easel",
+							"canvas2d",
+							"cpu-renderer",
+							"software-rendering",
+						],
+					},
+				],
+			},
+			null,
+			"\t",
+		)}\n`,
+	);
 	await write(
 		join(OUT, "codex/plugin/webcpu-agent-skill/.codex-plugin/plugin.json"),
 		`${JSON.stringify(

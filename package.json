@@ -14,13 +14,15 @@
 		"validate": "node scripts/validate.mjs --source-clean",
 		"validate:source": "node scripts/validate.mjs --source-clean",
 		"validate:package": "node scripts/validate.mjs --package",
-		"check": "node scripts/extract-api.mjs && node scripts/generate.mjs && node scripts/package.mjs && node scripts/validate.mjs --package && bun run biome:check && bun run typecheck && bun run deno:check",
+		"check": "node scripts/extract-api.mjs && node scripts/generate.mjs && node scripts/generate-agent-surfaces.mjs && node scripts/generate-llms.mjs && node scripts/package.mjs && node scripts/validate.mjs --package && bun run biome:check && bun run typecheck && bun run deno:check",
 		"test": "node scripts/validate.mjs --source-clean",
 		"biome:check": "bunx biome check .",
 		"biome:lint": "bunx biome lint .",
 		"biome:format": "bunx biome format . --write",
 		"typecheck": "tsc --noEmit",
-		"deno:check": "node scripts/check-deno.mjs"
+		"deno:check": "node scripts/check-deno.mjs",
+		"generate:llms": "node scripts/generate-llms.mjs",
+		"generate:agents": "node scripts/generate-agent-surfaces.mjs"
 	},
 	"dependencies": {
 		"@xsyetopz/easel": "0.4.5"

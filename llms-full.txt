@@ -1,0 +1,104 @@
+# webcpu-agent-skill full
+
+> Complete LLM manifest for the `webcpu-easel` agent skill repository.
+
+Baseline package: `@xsyetopz/easel@0.4.5`.
+Canonical source: `source/skills/webcpu-easel/`.
+Use `llms.txt` for concise context and this file when an agent needs every reference, example, and template entry.
+Agent rule: do not invent APIs; answer `UNKNOWN` when references and installed declarations do not verify a requested symbol or behavior.
+
+## Docs
+
+- [README](README.md): build, runtime support, Claude plugin marketplace install, agent prompts, install outputs, and grounding contract.
+- [Agent instructions](AGENTS.md): canonical repository-wide AI agent rules.
+- [Claude Code instructions](CLAUDE.md): generated Claude-specific wrapper importing `AGENTS.md`.
+- [Gemini CLI instructions](GEMINI.md): generated Gemini wrapper importing `AGENTS.md`.
+- [GitHub Copilot instructions](.github/copilot-instructions.md): generated Copilot repository guidance.
+- [Cursor rule](.cursor/rules/webcpu-easel.mdc): generated Cursor always-apply project rule.
+- [Zed rules](.rules): generated Zed project rule.
+- [JetBrains AI Assistant rule](.aiassistant/rules/webcpu-easel.md): generated JetBrains project rule.
+- [JetBrains Junie instructions](.junie/AGENTS.md): generated Junie-preferred `AGENTS.md`.
+- [Cline rule](.clinerules/00-webcpu-easel.md): generated Cline workspace rule.
+- [Roo Code rule](.roo/rules/00-webcpu-easel.md): generated Roo Code workspace rule.
+- [Augment rule](.augment/rules/webcpu-easel.md): generated Augment workspace rule.
+- [Agent platform matrix](docs/agent-platforms.md): generated support table and source links.
+- [Contributing guide](CONTRIBUTING.md): contributor workflow, validation, generated-surface rules, and public-doc guardrails.
+- [Skill contract](source/skills/webcpu-easel/body.md): execution protocol, anti-rules, runtime decision table.
+- [Reference map](source/skills/webcpu-easel/REFERENCE.md): lookup order, examples, templates, references.
+
+## References
+
+- [animation](source/skills/webcpu-easel/reference/animation.md): EASEL.js reference document.
+- [api index](source/skills/webcpu-easel/reference/api-index.md): EASEL.js reference document.
+- [cameras controls](source/skills/webcpu-easel/reference/cameras-controls.md): EASEL.js reference document.
+- [chunked voxel terrain](source/skills/webcpu-easel/reference/chunked-voxel-terrain.md): EASEL.js reference document.
+- [class signatures](source/skills/webcpu-easel/reference/class-signatures.md): EASEL.js reference document.
+- [core concepts](source/skills/webcpu-easel/reference/core-concepts.md): EASEL.js reference document.
+- [cpu rasterizer constraints](source/skills/webcpu-easel/reference/cpu-rasterizer-constraints.md): EASEL.js reference document.
+- [createjs easeljs comparison](source/skills/webcpu-easel/reference/createjs-easeljs-comparison.md): EASEL.js reference document.
+- [deno runtime](source/skills/webcpu-easel/reference/deno-runtime.md): EASEL.js reference document.
+- [enums constants](source/skills/webcpu-easel/reference/enums-constants.md): EASEL.js reference document.
+- [geometry builtins](source/skills/webcpu-easel/reference/geometry-builtins.md): EASEL.js reference document.
+- [geometry manual](source/skills/webcpu-easel/reference/geometry-manual.md): EASEL.js reference document.
+- [hierarchical voxel rigging](source/skills/webcpu-easel/reference/hierarchical-voxel-rigging.md): EASEL.js reference document.
+- [input picking](source/skills/webcpu-easel/reference/input-picking.md): EASEL.js reference document.
+- [lifecycle disposal](source/skills/webcpu-easel/reference/lifecycle-disposal.md): EASEL.js reference document.
+- [lights fog](source/skills/webcpu-easel/reference/lights-fog.md): EASEL.js reference document.
+- [loaders serialization](source/skills/webcpu-easel/reference/loaders-serialization.md): EASEL.js reference document.
+- [materials](source/skills/webcpu-easel/reference/materials.md): EASEL.js reference document.
+- [module imports](source/skills/webcpu-easel/reference/module-imports.md): EASEL.js reference document.
+- [package identity](source/skills/webcpu-easel/reference/package-identity.md): EASEL.js reference document.
+- [performance](source/skills/webcpu-easel/reference/performance.md): EASEL.js reference document.
+- [pointer input and grid picking](source/skills/webcpu-easel/reference/pointer-input-and-grid-picking.md): EASEL.js reference document.
+- [render loop recipes](source/skills/webcpu-easel/reference/render-loop-recipes.md): EASEL.js reference document.
+- [render pipeline](source/skills/webcpu-easel/reference/render-pipeline.md): EASEL.js reference document.
+- [renderer framebuffer](source/skills/webcpu-easel/reference/renderer-framebuffer.md): EASEL.js reference document.
+- [renderer orchestration](source/skills/webcpu-easel/reference/renderer-orchestration.md): EASEL.js reference document.
+- [setup](source/skills/webcpu-easel/reference/setup.md): EASEL.js reference document.
+- [sprites lines points](source/skills/webcpu-easel/reference/sprites-lines-points.md): EASEL.js reference document.
+- [texture atlas pipeline](source/skills/webcpu-easel/reference/texture-atlas-pipeline.md): EASEL.js reference document.
+- [textures assets](source/skills/webcpu-easel/reference/textures-assets.md): EASEL.js reference document.
+- [threejs migration](source/skills/webcpu-easel/reference/threejs-migration.md): EASEL.js reference document.
+- [type inspection guide](source/skills/webcpu-easel/reference/type-inspection-guide.md): EASEL.js reference document.
+- [version provenance](source/skills/webcpu-easel/reference/version-provenance.md): EASEL.js reference document.
+- [voxel worlds](source/skills/webcpu-easel/reference/voxel-worlds.md): EASEL.js reference document.
+- [webgl webgpu comparison](source/skills/webcpu-easel/reference/webgl-webgpu-comparison.md): EASEL.js reference document.
+
+## Examples
+
+- [animated cube](source/skills/webcpu-easel/examples/animated-cube.ts): TypeScript example.
+- [basic setup](source/skills/webcpu-easel/examples/basic-setup.ts): TypeScript example.
+- [data texture from canvas](source/skills/webcpu-easel/examples/data-texture-from-canvas.ts): TypeScript example.
+- [fog and lighting](source/skills/webcpu-easel/examples/fog-and-lighting.ts): TypeScript example.
+- [frame profiling](source/skills/webcpu-easel/examples/frame-profiling.ts): TypeScript example.
+- [manual geometry](source/skills/webcpu-easel/examples/manual-geometry.ts): TypeScript example.
+- [orbit camera](source/skills/webcpu-easel/examples/orbit-camera.ts): TypeScript example.
+- [responsive canvas](source/skills/webcpu-easel/examples/responsive-canvas.ts): TypeScript example.
+- [skinned voxel animation](source/skills/webcpu-easel/examples/skinned-voxel-animation.ts): TypeScript example.
+- [texture atlas](source/skills/webcpu-easel/examples/texture-atlas.ts): TypeScript example.
+- [voxel chunk mesher](source/skills/webcpu-easel/examples/voxel-chunk-mesher.ts): TypeScript example.
+- [voxel picking](source/skills/webcpu-easel/examples/voxel-picking.ts): TypeScript example.
+
+## Templates
+
+- [astro canvas](source/skills/webcpu-easel/templates/astro-canvas): project template.
+- [deno browser](source/skills/webcpu-easel/templates/deno-browser): project template.
+- [react canvas](source/skills/webcpu-easel/templates/react-canvas): project template.
+- [vite vanilla ts](source/skills/webcpu-easel/templates/vite-vanilla-ts): project template.
+- [voxel world starter](source/skills/webcpu-easel/templates/voxel-world-starter): project template.
+
+## Scripts
+
+- [API extractor](scripts/extract-api.mjs): regenerate API references from installed `@xsyetopz/easel` declarations.
+- [Skill generator](scripts/generate.mjs): generate platform skill files into `.build/generated/`.
+- [Agent surface generator](scripts/generate-agent-surfaces.mjs): generate tool-specific wrappers and rules from `AGENTS.md`.
+- [LLM context generator](scripts/generate-llms.mjs): generate expanded context files into `.build/llms/`.
+- [Packager](scripts/package.mjs): package installable bundles into `dist/`.
+- [Validator](scripts/validate.mjs): validate source, generated outputs, package outputs, agent surfaces, and LLM manifests.
+
+## Optional
+
+- [License](LICENSE): MIT license.
+- [Package manifest](package.json): scripts and dependencies.
+- [Biome config](biome.jsonc): formatting and lint rules.
+- [TypeScript config](tsconfig.json): root typecheck entrypoint.
