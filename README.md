@@ -11,20 +11,20 @@ The repo is DRY by design: references, examples, and templates live once under `
 
 Committed agent instruction surfaces:
 
-- `AGENTS.md` — canonical repo instructions for Codex/OpenAI agents, Amp, Augment hierarchy, Junie fallback, Zed fallback, and general agent runners.
-- `CLAUDE.md` — generated Claude Code wrapper importing `AGENTS.md`; real file, not a symlink.
-- `GEMINI.md` — generated Gemini CLI wrapper importing `AGENTS.md` with `@./AGENTS.md`.
-- `.github/copilot-instructions.md` — generated GitHub Copilot repository instructions.
-- `.cursor/rules/webcpu-easel.mdc` — generated Cursor always-apply project rule.
-- `.rules` — generated Zed project rules file.
-- `.aiassistant/rules/webcpu-easel.md` — generated JetBrains AI Assistant project rule.
-- `.junie/AGENTS.md` — generated JetBrains Junie preferred project guideline file.
-- `.clinerules/00-webcpu-easel.md` — generated Cline workspace rule.
-- `.roo/rules/00-webcpu-easel.md` — generated Roo Code workspace rule.
-- `.augment/rules/webcpu-easel.md` — generated Augment workspace rule.
-- `docs/agent-platforms.md` — generated support matrix with docs links and fallback notes.
-- `llms.txt` — concise llmstxt.org-style repo map and priority links.
-- `llms-full.txt` — full llmstxt.org-style manifest with every reference, example, template, and script.
+- `AGENTS.md` -- canonical repo instructions for Codex/OpenAI agents, Amp, Augment hierarchy, Junie fallback, Zed fallback, and general agent runners.
+- `CLAUDE.md` -- generated Claude Code wrapper importing `AGENTS.md`; real file, not a symlink.
+- `GEMINI.md` -- generated Gemini CLI wrapper importing `AGENTS.md` with `@./AGENTS.md`.
+- `.github/copilot-instructions.md` -- generated GitHub Copilot repository instructions.
+- `.cursor/rules/webcpu-easel.mdc` -- generated Cursor always-apply project rule.
+- `.rules` -- generated Zed project rules file.
+- `.aiassistant/rules/webcpu-easel.md` -- generated JetBrains AI Assistant project rule.
+- `.junie/AGENTS.md` -- generated JetBrains Junie preferred project guideline file.
+- `.clinerules/00-webcpu-easel.md` -- generated Cline workspace rule.
+- `.roo/rules/00-webcpu-easel.md` -- generated Roo Code workspace rule.
+- `.augment/rules/webcpu-easel.md` -- generated Augment workspace rule.
+- `docs/agent-platforms.md` -- generated support matrix with docs links and fallback notes.
+- `llms.txt` -- concise llmstxt.org-style repo map and priority links.
+- `llms-full.txt` -- full llmstxt.org-style manifest with every reference, example, template, and script.
 
 Regenerate instruction surfaces after editing `AGENTS.md`:
 

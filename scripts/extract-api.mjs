@@ -106,7 +106,7 @@ async function main() {
 	for (const [group, groupRows] of byGroup) {
 		api += `## ${group}\n\n`;
 		for (const row of groupRows)
-			api += `- \`${row.name}\` — \`${row.source}\`\n`;
+			api += `- \`${row.name}\` -- \`${row.source}\`\n`;
 		api += "\n";
 	}
 

@@ -46,11 +46,11 @@ bun run generate:agents
 
 ## Generated Outputs
 
-- `.build/generated/` — generated platform skill files.
-- `.build/llms/` — generated LLM aggregate context.
-- `dist/` — self-contained installable bundles.
-- `.agents/` — local generated marketplace state when needed.
-- `CLAUDE.md`, `GEMINI.md`, `.rules`, `.github/copilot-instructions.md`, `.cursor/rules/webcpu-easel.mdc`, `.aiassistant/rules/`, `.junie/AGENTS.md`, `.clinerules/`, `.roo/rules/`, `.augment/rules/`, and `docs/agent-platforms.md` — generated from this file.
+- `.build/generated/` -- generated platform skill files.
+- `.build/llms/` -- generated LLM aggregate context.
+- `dist/` -- self-contained installable bundles.
+- `.agents/` -- local generated marketplace state when needed.
+- `CLAUDE.md`, `GEMINI.md`, `.rules`, `.github/copilot-instructions.md`, `.cursor/rules/webcpu-easel.mdc`, `.aiassistant/rules/`, `.junie/AGENTS.md`, `.clinerules/`, `.roo/rules/`, `.augment/rules/`, and `docs/agent-platforms.md` -- generated from this file.
 
 Generated paths and generated instruction surfaces are artifacts. Do not edit them by hand.
 
