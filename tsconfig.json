@@ -1,0 +1,23 @@
+{
+	"extends": "./tsconfig.base.json",
+	"include": [
+		"scripts/**/*.mjs",
+		"source/skills/webcpu-easel/examples/**/*.ts",
+		"source/skills/webcpu-easel/templates/**/*.ts",
+		"source/skills/webcpu-easel/templates/**/*.tsx"
+	],
+	"exclude": [
+		"node_modules",
+		"dist",
+		".build",
+		"source/skills/webcpu-easel/templates/**/node_modules",
+		"source/skills/webcpu-easel/templates/deno-browser/**"
+	],
+	"compilerOptions": {
+		"exactOptionalPropertyTypes": false,
+		"jsx": "react-jsx",
+		"composite": false,
+		"declaration": false,
+		"declarationMap": false
+	}
+}

@@ -1,0 +1,12 @@
+{
+	"name": "webcpu-easel",
+	"description": "Precise, source-grounded guide for AI agents building CPU-rendered Canvas2D 3D scenes with @xsyetopz/easel (EASEL.js), including browser, Deno, Bun/Node bundler setup, renderer setup, scene graph, cameras, geometry buffers, materials, textures, lighting, fog, animation, picking, voxel worlds, performance, and migration from THREE.js/CreateJS/WebGPU assumptions. Use when working with @xsyetopz/easel, easeljs.org, EASEL.js CPU rasterizer, software rendering, Canvas2D 3D, retro 3D, Deno browser apps, or browser CPU graphics.",
+	"userInvocable": true,
+	"platforms": [
+		"claude",
+		"codex",
+		"opencode",
+		"copilot"
+	],
+	"category": "Development"
+}
