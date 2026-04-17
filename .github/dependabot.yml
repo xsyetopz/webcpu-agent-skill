@@ -1,0 +1,44 @@
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    groups:
+      github-actions:
+        patterns: [ "*" ]
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    groups:
+      root-dependencies:
+        patterns: [ "*" ]
+  - package-ecosystem: npm
+    directory: /source/skills/webcpu-easel/templates/vite-vanilla-ts
+    schedule:
+      interval: weekly
+    groups:
+      template-dependencies:
+        patterns: [ "*" ]
+  - package-ecosystem: npm
+    directory: /source/skills/webcpu-easel/templates/react-canvas
+    schedule:
+      interval: weekly
+    groups:
+      template-dependencies:
+        patterns: [ "*" ]
+  - package-ecosystem: npm
+    directory: /source/skills/webcpu-easel/templates/astro-canvas
+    schedule:
+      interval: weekly
+    groups:
+      template-dependencies:
+        patterns: [ "*" ]
+  - package-ecosystem: npm
+    directory: /source/skills/webcpu-easel/templates/voxel-world-starter
+    schedule:
+      interval: weekly
+    groups:
+      template-dependencies:
+        patterns: [ "*" ]

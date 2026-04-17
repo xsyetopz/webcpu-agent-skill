@@ -12,7 +12,7 @@ Agent rule: do not invent APIs; answer `UNKNOWN` when references and installed d
 - [README](README.md): build, runtime support, Claude plugin marketplace install, agent prompts, install outputs, and grounding contract.
 - [Agent instructions](AGENTS.md): canonical repository-wide AI agent rules.
 - [Agent platform matrix](docs/agent-platforms.md): generated support table for Codex, Claude, Copilot, Cursor, Gemini, Zed, JetBrains, Cline, Roo, Augment, Amp, Neovim, and Antigravity.
-- [Contributing guide](CONTRIBUTING.md): contributor workflow, validation, generated-surface rules, and public-doc guardrails.
+- [Contributing guide](CONTRIBUTING.md): contributor workflow, validation, generated-surface rules, CI/CD, and public-doc guardrails.
 - [Skill contract](source/skills/webcpu-easel/body.md): execution protocol, anti-rules, runtime decision table.
 - [Reference map](source/skills/webcpu-easel/REFERENCE.md): lookup order, examples, templates, references.
 

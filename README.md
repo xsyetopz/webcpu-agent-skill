@@ -272,6 +272,34 @@ Installable self-contained bundles:
 - `dist/.agents/plugins/marketplace.json`
 - `dist/claude/.claude-plugin/marketplace.json`
 
+## CI/CD
+
+GitHub Actions validate the same surfaces that local agents use:
+
+- source checks: `bun run validate:source`, `bun run biome:check`, `bun run typecheck`, and `bun run deno:check`
+- full package checks on Linux, macOS, and Windows with `bun run check`
+- generated-surface drift checks for `AGENTS.md` wrappers, `llms.txt`, and `llms-full.txt`
+- template checks for Vite, React, Astro, voxel, and Deno browser starters with `bun run templates:check`
+- package artifact checks plus archive upload from `dist/archives/`
+
+Release workflow runs on `v*` tags and publishes Claude, Codex, OpenCode, Copilot, all-platform archives, and `SHA256SUMS.txt` as GitHub Release assets.
+
+Local release-equivalent check:
+
+```bash
+bun install
+bun run check
+bun run templates:check
+bun run pack:archive
+```
+
+Tag release flow:
+
+```bash
+git tag v0.1.0
+git push origin v0.1.0
+```
+
 ## Grounding contract
 
 Use `@xsyetopz/easel@0.4.5` as the baseline. If a requested API is not in `source/skills/webcpu-easel/reference/api-index.md` or `class-signatures.md`, inspect installed package types before generating code. If still absent, say `UNKNOWN` with the missing symbol or behavior instead of inventing an API.

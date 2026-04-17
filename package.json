@@ -22,7 +22,8 @@
 		"typecheck": "tsc --noEmit",
 		"deno:check": "node scripts/check-deno.mjs",
 		"generate:llms": "node scripts/generate-llms.mjs",
-		"generate:agents": "node scripts/generate-agent-surfaces.mjs"
+		"generate:agents": "node scripts/generate-agent-surfaces.mjs",
+		"templates:check": "node scripts/check-templates.mjs"
 	},
 	"dependencies": {
 		"@xsyetopz/easel": "0.4.5"

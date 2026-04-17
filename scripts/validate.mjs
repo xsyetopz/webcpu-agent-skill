@@ -108,6 +108,8 @@ const SOURCE_TEXT_EXTENSIONS = new Set([
 	".ts",
 	".tsx",
 	".txt",
+	".yaml",
+	".yml",
 ]);
 const TEMPLATES = [
 	"vite-vanilla-ts",
@@ -139,6 +141,21 @@ const PACKAGED_SKILL_DIRS = [
 	"opencode/templates/skills/webcpu-easel",
 	"copilot/templates/.github/skills/webcpu-easel",
 	"copilot/templates/.copilot/skills/webcpu-easel",
+];
+const CI_FILES = [
+	".github/workflows/ci.yml",
+	".github/workflows/release.yml",
+	".github/dependabot.yml",
+];
+const CI_REQUIRED_TEXT = [
+	"actions/checkout@v6",
+	"actions/setup-node@v6",
+	"oven-sh/setup-bun@v2",
+	"denoland/setup-deno@v2",
+	"actions/upload-artifact@v6",
+	"bun run templates:check",
+	"bun run check",
+	"bun run pack:archive",
 ];
 
 /** @param {string} path @returns {Promise<string>} */
@@ -429,6 +446,28 @@ async function validateClaudeMarketplace(root) {
 	assert(entry.source === "./", "Claude marketplace source must be ./");
 }
 
+async function validateCiConfig() {
+	for (const file of CI_FILES) {
+		assert(existsSync(join(ROOT, file)), `missing CI config ${file}`);
+	}
+	const ci = await read(join(ROOT, ".github/workflows/ci.yml"));
+	for (const text of CI_REQUIRED_TEXT) {
+		assert(ci.includes(text), `CI workflow missing ${text}`);
+	}
+	for (const text of ["softprops/action-gh-release@v2", "contents: write"]) {
+		const release = await read(join(ROOT, ".github/workflows/release.yml"));
+		assert(release.includes(text), `release workflow missing ${text}`);
+	}
+	const dependabot = await read(join(ROOT, ".github/dependabot.yml"));
+	for (const text of [
+		"github-actions",
+		"package-ecosystem: npm",
+		"template-dependencies",
+	]) {
+		assert(dependabot.includes(text), `dependabot config missing ${text}`);
+	}
+}
+
 async function validateContributing() {
 	const text = await read(join(ROOT, "CONTRIBUTING.md"));
 	for (const term of COPIED_CONTRIBUTING_TERMS) {
@@ -441,6 +480,7 @@ async function validateContributing() {
 		"webcpu-agent-skill",
 		"bun run check",
 		"bun run generate:agents",
+		"bun run templates:check",
 		"bun run validate:source",
 		"@xsyetopz/easel@0.4.5",
 	]) {
@@ -491,11 +531,27 @@ async function validatePackageMode() {
 	for (const file of REQUIRED_AGENT_FILES) {
 		assert(existsSync(join(DIST, file)), `missing packaged ${file}`);
 	}
+	validateArchivesIfPresent();
 	for (const file of ["llms/llms-ctx.txt", "llms/llms-ctx-full.txt"]) {
 		assert(existsSync(join(DIST, file)), `missing packaged ${file}`);
 	}
 	for (const file of ["CONTRIBUTING.md", "CODE_OF_CONDUCT.md"]) {
 		assert(existsSync(join(DIST, file)), `missing packaged ${file}`);
+	}
+}
+
+function validateArchivesIfPresent() {
+	const archives = join(DIST, "archives");
+	if (!existsSync(archives)) return;
+	for (const file of [
+		"claude.tar.gz",
+		"codex.tar.gz",
+		"opencode.tar.gz",
+		"copilot.tar.gz",
+		"webcpu-agent-skill-all.tar.gz",
+		"SHA256SUMS.txt",
+	]) {
+		assert(existsSync(join(archives, file)), `missing archive ${file}`);
 	}
 }
 
@@ -513,6 +569,7 @@ async function validateSourceContent() {
 	}
 	await validateNoForbiddenSourceText();
 	await validateAgentInstructionSurfaces();
+	await validateCiConfig();
 	await validateContributing();
 	await validateLlmsSurfaces();
 	validateNoTemplateNodeModules();

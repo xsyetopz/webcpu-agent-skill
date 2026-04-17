@@ -22,7 +22,7 @@ Agent rule: do not invent APIs; answer `UNKNOWN` when references and installed d
 - [Roo Code rule](.roo/rules/00-webcpu-easel.md): generated Roo Code workspace rule.
 - [Augment rule](.augment/rules/webcpu-easel.md): generated Augment workspace rule.
 - [Agent platform matrix](docs/agent-platforms.md): generated support table and source links.
-- [Contributing guide](CONTRIBUTING.md): contributor workflow, validation, generated-surface rules, and public-doc guardrails.
+- [Contributing guide](CONTRIBUTING.md): contributor workflow, validation, generated-surface rules, CI/CD, and public-doc guardrails.
 - [Skill contract](source/skills/webcpu-easel/body.md): execution protocol, anti-rules, runtime decision table.
 - [Reference map](source/skills/webcpu-easel/REFERENCE.md): lookup order, examples, templates, references.
 
@@ -86,6 +86,12 @@ Agent rule: do not invent APIs; answer `UNKNOWN` when references and installed d
 - [react canvas](source/skills/webcpu-easel/templates/react-canvas): project template.
 - [vite vanilla ts](source/skills/webcpu-easel/templates/vite-vanilla-ts): project template.
 - [voxel world starter](source/skills/webcpu-easel/templates/voxel-world-starter): project template.
+
+## CI/CD
+
+- [CI workflow](.github/workflows/ci.yml): source, package, generated drift, template, and artifact validation.
+- [Release workflow](.github/workflows/release.yml): tag-triggered archive build and GitHub Release publish.
+- [Dependabot config](.github/dependabot.yml): GitHub Actions and npm dependency updates.
 
 ## Scripts
 

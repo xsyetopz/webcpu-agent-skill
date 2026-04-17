@@ -57,6 +57,15 @@ bun run biome:check
 
 ```bash
 bun run check
+bun run templates:check
+```
+
+### Release package check
+
+```bash
+bun run check
+bun run templates:check
+bun run pack:archive
 ```
 
 ### Clean source gate
@@ -76,6 +85,7 @@ bun run validate:source
 - [ ] No generated `.build/`, `dist/`, or `.agents/` artifacts committed.
 - [ ] No private/local provenance in public docs.
 - [ ] Validation commands and results are included in the PR description.
+- [ ] CI/CD changes mention the matching local command in `README.md`.
 - [ ] AI-assisted text and code were reviewed against the reference docs.
 
 ## Reporting bugs

@@ -21,6 +21,8 @@ const LOCAL_TEXT_EXTENSIONS = new Set([
 	".ts",
 	".tsx",
 	".txt",
+	".yaml",
+	".yml",
 ]);
 
 /** @param {string} path @returns {Promise<string>} */
