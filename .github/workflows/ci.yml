@@ -134,7 +134,7 @@ jobs:
           test -f dist/archives/SHA256SUMS.txt
           tar -tzf dist/archives/claude.tar.gz | grep '^claude/.claude-plugin/plugin.json$'
           tar -tzf dist/archives/codex.tar.gz | grep '^codex/plugin/webcpu-agent-skill/.codex-plugin/plugin.json$'
-      - uses: actions/upload-artifact@v6
+      - uses: actions/upload-artifact@v7
         with:
           name: webcpu-agent-skill-archives
           path: dist/archives/*
