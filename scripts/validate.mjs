@@ -147,16 +147,27 @@ const CI_FILES = [
 	".github/workflows/release.yml",
 	".github/dependabot.yml",
 ];
-const CI_REQUIRED_TEXT = [
-	"actions/checkout@v6",
-	"actions/setup-node@v6",
-	"oven-sh/setup-bun@v2",
-	"denoland/setup-deno@v2",
-	"actions/upload-artifact@v6",
+/** @type {[string, number][]} */
+const CI_REQUIRED_ACTIONS = [
+	["actions/checkout", 6],
+	["actions/setup-node", 6],
+	["actions/upload-artifact", 6],
+];
+const CI_REQUIRED_ACTION_FAMILIES = [
+	"oven-sh/setup-bun@",
+	"denoland/setup-deno@",
+];
+const CI_REQUIRED_COMMANDS = [
+	"bun run validate:source",
+	"bun run biome:check",
+	"bun run typecheck",
+	"bun run deno:check",
 	"bun run templates:check",
 	"bun run check",
 	"bun run pack:archive",
 ];
+/** @type {[string, number][]} */
+const RELEASE_REQUIRED_ACTIONS = [["softprops/action-gh-release", 2]];
 
 /** @param {string} path @returns {Promise<string>} */
 async function read(path) {
@@ -446,16 +457,46 @@ async function validateClaudeMarketplace(root) {
 	assert(entry.source === "./", "Claude marketplace source must be ./");
 }
 
+/** @param {string} text @param {string} action @returns {number | undefined} */
+function actionMajor(text, action) {
+	const pattern = new RegExp(`${action.replaceAll("/", "\\/")}@v(\\d+)`);
+	const match = text.match(pattern);
+	const major = match?.[1];
+	return major ? Number.parseInt(major, 10) : undefined;
+}
+
+/** @param {string} text @param {string} action @param {number} minimum @param {string} source */
+function assertActionAtLeast(text, action, minimum, source) {
+	const major = actionMajor(text, action);
+	assert(major !== undefined, `${source} missing ${action}@v${minimum}+`);
+	assert(major >= minimum, `${source} ${action} must be v${minimum}+`);
+}
+
 async function validateCiConfig() {
 	for (const file of CI_FILES) {
 		assert(existsSync(join(ROOT, file)), `missing CI config ${file}`);
 	}
 	const ci = await read(join(ROOT, ".github/workflows/ci.yml"));
-	for (const text of CI_REQUIRED_TEXT) {
-		assert(ci.includes(text), `CI workflow missing ${text}`);
+	const release = await read(join(ROOT, ".github/workflows/release.yml"));
+	for (const [action, minimum] of CI_REQUIRED_ACTIONS) {
+		assertActionAtLeast(ci, action, minimum, "CI workflow");
 	}
-	for (const text of ["softprops/action-gh-release@v2", "contents: write"]) {
-		const release = await read(join(ROOT, ".github/workflows/release.yml"));
+	for (const family of CI_REQUIRED_ACTION_FAMILIES) {
+		assert(ci.includes(family), `CI workflow missing ${family}`);
+	}
+	for (const command of CI_REQUIRED_COMMANDS) {
+		assert(ci.includes(command), `CI workflow missing ${command}`);
+	}
+	for (const [action, minimum] of RELEASE_REQUIRED_ACTIONS) {
+		assertActionAtLeast(release, action, minimum, "release workflow");
+	}
+	for (const text of [
+		"contents: write",
+		"bun run check",
+		"bun run templates:check",
+		"bun run pack:archive",
+		"dist/archives/SHA256SUMS.txt",
+	]) {
 		assert(release.includes(text), `release workflow missing ${text}`);
 	}
 	const dependabot = await read(join(ROOT, ".github/dependabot.yml"));
