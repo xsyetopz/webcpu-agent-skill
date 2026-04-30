@@ -25,6 +25,10 @@ const TARGETS = [
 		name: "copilot",
 		required: ["copilot/templates/.github/skills/webcpu-easel/SKILL.md"],
 	},
+	{
+		name: "kilocode",
+		required: ["kilocode/skills/webcpu-easel/SKILL.md"],
+	},
 ];
 
 /** @param {string} path */

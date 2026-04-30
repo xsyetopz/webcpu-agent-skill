@@ -10,7 +10,7 @@ Before writing code:
 
 1. Identify runtime: browser, Deno-managed browser, Bun/Node bundler, React, Astro, or existing app.
 2. Identify import mode: npm package, JSR package, Deno import map, or existing project alias.
-3. Identify installed `@xsyetopz/easel` version. If absent, use bundled baseline `@xsyetopz/easel@0.4.5`.
+3. Identify installed `@xsyetopz/easel` version. If absent, use bundled baseline `@xsyetopz/easel@0.5.0`.
 4. Pick one task recipe from `REFERENCE.md`.
 5. Verify symbols in `reference/api-index.md` and shapes in `reference/class-signatures.md`.
 6. If a needed API is absent, inspect installed declarations under `node_modules/@xsyetopz/easel/dist/` or Deno cache/types.
@@ -30,33 +30,33 @@ Do not work around these rules.
 
 ## Runtime Decision Table
 
-| Runtime/task | Use first | Verify |
-| --- | --- | --- |
-| npm/Bun/browser setup | `reference/setup.md` | `EASEL.REVISION` |
-| Deno-managed browser app | `reference/deno-runtime.md` | `deno check`, browser canvas |
-| Imports/install | `reference/module-imports.md` | package version and import mode |
-| Renderer loop | `reference/renderer-framebuffer.md` | `renderer.render(scene, camera)` |
-| Manual geometry | `reference/geometry-manual.md` | positions, normals, UVs, indices |
-| Texture atlas | `reference/texture-atlas-pipeline.md` | `DataTexture`, `needsUpdate` |
-| Picking/input | `reference/input-picking.md` | canvas pixel scaling |
-| Voxel chunks | `reference/chunked-voxel-terrain.md` | chunk replacement disposal |
-| Animation | `reference/animation.md` | `Animator`, `AnimationClip`, `Track` |
-| Performance | `reference/performance.md` | CPU budget and object reuse |
+| Runtime/task             | Use first                             | Verify                               |
+| ------------------------ | ------------------------------------- | ------------------------------------ |
+| npm/Bun/browser setup    | `reference/setup.md`                  | `EASEL.REVISION`                     |
+| Deno-managed browser app | `reference/deno-runtime.md`           | `deno check`, browser canvas         |
+| Imports/install          | `reference/module-imports.md`         | package version and import mode      |
+| Renderer loop            | `reference/renderer-framebuffer.md`   | `renderer.render(scene, camera)`     |
+| Manual geometry          | `reference/geometry-manual.md`        | positions, normals, UVs, indices     |
+| Texture atlas            | `reference/texture-atlas-pipeline.md` | `DataTexture`, `needsUpdate`         |
+| Picking/input            | `reference/input-picking.md`          | canvas pixel scaling                 |
+| Voxel chunks             | `reference/chunked-voxel-terrain.md`  | chunk replacement disposal           |
+| Animation                | `reference/animation.md`              | `Animator`, `AnimationClip`, `Track` |
+| Performance              | `reference/performance.md`            | CPU budget and object reuse          |
 
 ## Capability Map
 
-| Area | Verified EASEL.js surface |
-| --- | --- |
-| Renderer | `Renderer`, `RenderTimings`, `setSize`, `setPixelRatio`, `setClearColor`, `render`, `dispose` |
-| Scene graph | `Scene`, `Node`, `Group`, `Mesh`, `Line`, `LineSegments`, `Points`, `Sprite`, `Bone`, `SkinnedMesh` |
-| Cameras | `PerspectiveCamera`, `OrthographicCamera`, `Camera` base via concrete subclasses |
-| Geometry | `Geometry`, `Attribute`, built-in primitives, manual buffers: positions, normals, UVs, colors, index |
-| Materials | `Material`, `BasicMaterial`, `LambertMaterial`, `ToonMaterial`, `LineMaterial`, `PointsMaterial`, `DashedLineMaterial` |
-| Textures | `Texture`, `DataTexture`, `CanvasTexture`, `FramebufferTexture`, `VideoTexture`, loaders |
-| Lighting/fog | `AmbientLight`, `DirectionalLight`, `PointLight`, `SpotLight`, `HemisphereLight`, `Fog` |
-| Animation | `AnimationClip`, `Animator`, `Track`, typed tracks, `LoopOnce`, `LoopRepeat`, `LoopPingPong` |
-| Picking | `Raycaster`, custom ray/voxel DDA recipes |
-| Pipeline | `SceneTraversal`, `FogCuller`, `PainterSort`, `LightBaker`, `Rasterizer`, `FramebufferUpload` |
+| Area         | Verified EASEL.js surface                                                                                              |
+| ------------ | ---------------------------------------------------------------------------------------------------------------------- |
+| Renderer     | `Renderer`, `RenderTimings`, `setSize`, `setPixelRatio`, `setClearColor`, `render`, `dispose`                          |
+| Scene graph  | `Scene`, `Node`, `Group`, `Mesh`, `Line`, `LineSegments`, `Points`, `Sprite`, `Bone`, `SkinnedMesh`                    |
+| Cameras      | `PerspectiveCamera`, `OrthographicCamera`, `Camera` base via concrete subclasses                                       |
+| Geometry     | `Geometry`, `Attribute`, built-in primitives, manual buffers: positions, normals, UVs, colors, index                   |
+| Materials    | `Material`, `BasicMaterial`, `LambertMaterial`, `ToonMaterial`, `LineMaterial`, `PointsMaterial`, `DashedLineMaterial` |
+| Textures     | `Texture`, `DataTexture`, `CanvasTexture`, `FramebufferTexture`, `VideoTexture`, loaders                               |
+| Lighting/fog | `AmbientLight`, `DirectionalLight`, `PointLight`, `SpotLight`, `HemisphereLight`, `Fog`                                |
+| Animation    | `AnimationClip`, `Animator`, `Track`, typed tracks, `LoopOnce`, `LoopRepeat`, `LoopPingPong`                           |
+| Picking      | `Raycaster`, custom ray/voxel DDA recipes                                                                              |
+| Pipeline     | `SceneTraversal`, `FogCuller`, `PainterSort`, `LightBaker`, `Rasterizer`, `FramebufferUpload`                          |
 
 ## Task Recipe Index
 

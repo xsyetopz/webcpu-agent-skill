@@ -2,7 +2,7 @@
 
 > Complete LLM manifest for the `webcpu-easel` agent skill repository.
 
-Baseline package: `@xsyetopz/easel@0.4.5`.
+Baseline package: `@xsyetopz/easel@0.5.0`.
 Canonical source: `source/skills/webcpu-easel/`.
 Use `llms.txt` for concise context and this file when an agent needs every reference, example, and template entry.
 Agent rule: do not invent APIs; answer `UNKNOWN` when references and installed declarations do not verify a requested symbol or behavior.
@@ -19,7 +19,7 @@ Agent rule: do not invent APIs; answer `UNKNOWN` when references and installed d
 - [JetBrains AI Assistant rule](.aiassistant/rules/webcpu-easel.md): generated JetBrains project rule.
 - [JetBrains Junie instructions](.junie/AGENTS.md): generated Junie-preferred `AGENTS.md`.
 - [Cline rule](.clinerules/00-webcpu-easel.md): generated Cline workspace rule.
-- [Roo Code rule](.roo/rules/00-webcpu-easel.md): generated Roo Code workspace rule.
+- [KiloCode Legacy installer](install.sh): online installer copies the packaged skill into `.kilocode/skills/webcpu-easel`.
 - [Augment rule](.augment/rules/webcpu-easel.md): generated Augment workspace rule.
 - [Agent platform matrix](docs/agent-platforms.md): generated support table and source links.
 - [Contributing guide](CONTRIBUTING.md): contributor workflow, validation, generated-surface rules, CI/CD, and public-doc guardrails.

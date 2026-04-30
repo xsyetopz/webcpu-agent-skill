@@ -1,238 +1,131 @@
 # webcpu-agent-skill
 
-All-agent skill/plugin for building CPU-rendered Canvas2D scenes with [`EASEL.js`](https://easeljs.org). Written as prompt-contract documentation for AI agents, with npm/Bun/browser and Deno-managed browser runtime paths.
+All-agent skill/plugin for building CPU-rendered Canvas2D scenes with [`EASEL.js`](https://easeljs.org). Baseline package: `@xsyetopz/easel@0.5.0`.
 
-The repo is DRY by design: references, examples, and templates live once under `source/skills/webcpu-easel/`. Platform-specific skill files are generated into `.build/generated/`; self-contained installable bundles are packaged into `dist/`.
+The repo is DRY by design: references, examples, and templates live once under `source/skills/webcpu-easel/`. Platform-specific skill files are generated into `.build/generated/`; self-contained installable bundles are packaged into `dist/`; online installer archives are committed under `prebuilt/archives/`.
 
+## Fast online install
 
-## Agent Instructions
+No local clone required:
 
-`AGENTS.md` is the canonical instruction source. Tool-specific files are generated from it so platform configs stay precise without hand-maintained copy-paste drift.
+```bash
+curl -fsSL https://raw.githubusercontent.com/xsyetopz/webcpu-agent-skill/main/install.sh | sh -s -- --target kilocode --project /path/to/project
+curl -fsSL https://raw.githubusercontent.com/xsyetopz/webcpu-agent-skill/main/install.sh | sh -s -- --target claude
+curl -fsSL https://raw.githubusercontent.com/xsyetopz/webcpu-agent-skill/main/install.sh | sh -s -- --target codex
+```
 
-Committed agent instruction surfaces:
+Targets:
 
-- `AGENTS.md` -- canonical repo instructions for Codex/OpenAI agents, Amp, Augment hierarchy, Junie fallback, Zed fallback, and general agent runners.
-- `CLAUDE.md` -- generated Claude Code wrapper importing `AGENTS.md`; real file, not a symlink.
-- `GEMINI.md` -- generated Gemini CLI wrapper importing `AGENTS.md` with `@./AGENTS.md`.
-- `.github/copilot-instructions.md` -- generated GitHub Copilot repository instructions.
-- `.cursor/rules/webcpu-easel.mdc` -- generated Cursor always-apply project rule.
-- `.rules` -- generated Zed project rules file.
-- `.aiassistant/rules/webcpu-easel.md` -- generated JetBrains AI Assistant project rule.
-- `.junie/AGENTS.md` -- generated JetBrains Junie preferred project guideline file.
-- `.clinerules/00-webcpu-easel.md` -- generated Cline workspace rule.
-- `.roo/rules/00-webcpu-easel.md` -- generated Roo Code workspace rule.
-- `.augment/rules/webcpu-easel.md` -- generated Augment workspace rule.
-- `docs/agent-platforms.md` -- generated support matrix with docs links and fallback notes.
-- `llms.txt` -- concise llmstxt.org-style repo map and priority links.
-- `llms-full.txt` -- full llmstxt.org-style manifest with every reference, example, template, and script.
+- `kilocode`: installs `webcpu-easel` into `<project>/.kilocode/skills/webcpu-easel`.
+- `claude`: installs the Claude skill into `~/.claude/skills/webcpu-easel`.
+- `codex`: installs the Codex plugin into `~/.codex/plugins/webcpu-agent-skill`.
+- `all`: installs all three.
 
-Regenerate instruction surfaces after editing `AGENTS.md`:
+## Hosted marketplaces
+
+### Claude Code
+
+This repository hosts a Claude plugin marketplace at `.claude-plugin/marketplace.json`.
+
+In Claude Code:
+
+```text
+/plugin marketplace add xsyetopz/webcpu-agent-skill
+/plugin install webcpu-agent-skill@webcpu-agent-skill
+/plugin
+```
+
+Fallback without marketplace support:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/xsyetopz/webcpu-agent-skill/main/install.sh | sh -s -- --target claude
+```
+
+### Codex / OpenAI agents
+
+This repository hosts a Codex marketplace at `.agents/plugins/marketplace.json`. The hosted plugin lives at `plugins/webcpu-agent-skill` and includes `.codex-plugin/plugin.json`, `skills/webcpu-easel/SKILL.md`, `REFERENCE.md`, references, examples, and templates.
+
+Fallback without repo marketplace support:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/xsyetopz/webcpu-agent-skill/main/install.sh | sh -s -- --target codex
+```
+
+### KiloCode Legacy
+
+KiloCode Legacy discovers project skills from `.kilocode/skills/` and global skills from `~/.kilocode/skills/`.
+
+Project install:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/xsyetopz/webcpu-agent-skill/main/install.sh | sh -s -- --target kilocode --project /path/to/project
+```
+
+Then open that project in KiloCode Legacy. The skill path should be:
+
+```text
+/path/to/project/.kilocode/skills/webcpu-easel/SKILL.md
+```
+
+## Agent instruction surfaces
+
+`AGENTS.md` is canonical. Generated files keep platform configs aligned:
+
+- `CLAUDE.md` -- Claude Code wrapper importing `AGENTS.md`; real file, not symlink.
+- `GEMINI.md` -- Gemini CLI wrapper importing `AGENTS.md`.
+- `.github/copilot-instructions.md` -- GitHub Copilot repository instructions.
+- `.cursor/rules/webcpu-easel.mdc` -- Cursor always-apply rule.
+- `.rules` -- Zed rules.
+- `.aiassistant/rules/webcpu-easel.md` and `.junie/AGENTS.md` -- JetBrains AI Assistant / Junie.
+- `.clinerules/00-webcpu-easel.md` -- Cline workspace rule.
+- `.augment/rules/webcpu-easel.md` -- Augment rule.
+- `docs/agent-platforms.md` -- generated support matrix.
+- `llms.txt` and `llms-full.txt` -- LLM context manifests.
+
+Regenerate after changing `AGENTS.md`:
 
 ```bash
 bun run generate:agents
 ```
 
-## Install / Use with Agents
+## Ask your agent to install this
 
-Build installable bundles first:
-
-```bash
-bun install
-bun run check
-```
-
-### Codex / OpenAI agents
-
-Codex reads repo `AGENTS.md` automatically when opened in this repository. To install the packaged skill/plugin into a local Codex plugin marketplace, use `dist/codex/plugin/webcpu-agent-skill` after `bun run check`.
-
-### Claude Code
-
-Claude Code reads `CLAUDE.md`, which imports `AGENTS.md`. Preferred install uses the generated local plugin marketplace, matching the Claude plugin format used by openagentsbtw.
-
-```bash
-bun run check
-```
-
-Then in Claude Code:
+### KiloCode Legacy
 
 ```text
-/plugin marketplace add ./dist/claude
-/plugin install webcpu-agent-skill@webcpu-agent-skill
-/plugin
+Install WebCPU EASEL.js skill into this project for KiloCode Legacy. Do not clone the repository. Run:
+
+curl -fsSL https://raw.githubusercontent.com/xsyetopz/webcpu-agent-skill/main/install.sh | sh -s -- --target kilocode --project .
+
+Verify `.kilocode/skills/webcpu-easel/SKILL.md`, `REFERENCE.md`, `reference/`, `examples/`, and `templates/` exist.
 ```
 
-For local smoke testing or validation, use Claude Code's plugin commands when available:
-
-```bash
-claude --plugin-dir dist/claude
-claude plugin validate dist/claude
-```
-
-Manual skill-copy fallback:
-
-```bash
-bun run check
-mkdir -p ~/.claude/skills
-cp -R dist/claude/skills/webcpu-easel ~/.claude/skills/webcpu-easel
-```
-
-Plugin metadata is generated at `dist/claude/.claude-plugin/plugin.json`; local marketplace metadata is generated at `dist/claude/.claude-plugin/marketplace.json`.
-
-### OpenCode
-
-OpenCode can use the root `AGENTS.md` as project guidance. Packaged skill assets are generated under `dist/opencode/templates/skills/webcpu-easel`; copy that directory into the OpenCode skills location used by your setup.
-
-### GitHub Copilot / Copilot CLI
-
-Copilot repository instructions are committed at `.github/copilot-instructions.md`. Packaged Copilot skill assets are generated under:
-
-- `dist/copilot/templates/.github/skills/webcpu-easel`
-- `dist/copilot/templates/.copilot/skills/webcpu-easel`
-
-Copilot CLI support is documented as partial: use the same repository files as prompt context unless the CLI surface documents separate repository instruction ingestion.
-
-### Cursor
-
-Cursor project rules are committed at `.cursor/rules/webcpu-easel.mdc`. Open the repository in Cursor; the rule is marked `alwaysApply: true`.
-
-### Gemini CLI
-
-Gemini CLI reads `GEMINI.md`. This generated file imports `AGENTS.md` with `@./AGENTS.md`, keeping Gemini-specific setup thin and canonical.
-
-### Zed
-
-Zed reads `.rules` at the project root before compatibility fallbacks such as `AGENTS.md`, `CLAUDE.md`, and `GEMINI.md`. The generated `.rules` file materializes `AGENTS.md` so Zed receives the same contract.
-
-### JetBrains AI Assistant / IntelliJ / Junie
-
-JetBrains AI Assistant project rules live under `.aiassistant/rules/`. Junie prefers `.junie/AGENTS.md` and falls back to root `AGENTS.md`. Both generated files materialize the canonical contract.
-
-### Cline
-
-Cline workspace rules live under `.clinerules/`. The generated `00-webcpu-easel.md` file is loaded as shared workspace guidance.
-
-### Roo Code
-
-Roo Code workspace rules live under `.roo/rules/`. The generated `00-webcpu-easel.md` file is the project rule surface.
-
-### Augment / Auggie CLI
-
-Augment workspace rules live under `.augment/rules/`. Augment also discovers `AGENTS.md` and `CLAUDE.md` hierarchically, so the generated rule and canonical file agree.
-
-### Amp / Neovim
-
-Amp reads `AGENTS.md` automatically in CLI and supported IDE integrations, including Neovim through Amp's Neovim plugin path. Neovim has no single universal AI-agent instruction file; use the active plugin/CLI adapter and point it at `AGENTS.md`, `llms.txt`, or the packaged skill output.
-
-### Google Antigravity
-
-Antigravity rules/workflows docs are JavaScript-rendered. Until a static repository rule-file path is verified, use `AGENTS.md`, `GEMINI.md`, and `llms.txt` as the portable fallback context.
-
-### Generic LLMs
-
-Start with `llms.txt`, then `AGENTS.md`, then `source/skills/webcpu-easel/REFERENCE.md`. Use `llms-full.txt` when full repository context is needed.
-
-## Ask Your Agent to Install This
-
-Paste one prompt into the AI agent you are using. Replace placeholders first.
-
-### Claude Code plugin marketplace
+### Claude Code marketplace
 
 ```text
-Install the WebCPU EASEL.js agent skill from <path-to-webcpu-agent-skill> into Claude Code for <path-to-target-project>. Run `bun run check` in the skill repo first. Use the local Claude plugin marketplace at `dist/claude`: add it with `/plugin marketplace add ./dist/claude`, install `webcpu-agent-skill@webcpu-agent-skill`, and verify the skill is listed by `/plugin`. Do not symlink `CLAUDE.md`; this repo uses a real generated wrapper importing `AGENTS.md`.
-```
-
-### Claude Code manual skill fallback
-
-```text
-Install the WebCPU EASEL.js Claude skill manually from <path-to-webcpu-agent-skill>. Run `bun run check`, then copy `dist/claude/skills/webcpu-easel` into `~/.claude/skills/webcpu-easel`. Verify `SKILL.md`, `REFERENCE.md`, `reference/`, `examples/`, and `templates/` exist after copying.
+Install WebCPU EASEL.js from the hosted Claude marketplace. In Claude Code, run `/plugin marketplace add xsyetopz/webcpu-agent-skill`, then `/plugin install webcpu-agent-skill@webcpu-agent-skill`, then `/plugin` to verify. If marketplace install is unavailable, run the online installer: `curl -fsSL https://raw.githubusercontent.com/xsyetopz/webcpu-agent-skill/main/install.sh | sh -s -- --target claude`.
 ```
 
 ### Codex / OpenAI agents
 
 ```text
-Use <path-to-webcpu-agent-skill> as a Codex/OpenAI agent skill source for <path-to-target-project>. Read `AGENTS.md` first, then `llms.txt`, then `source/skills/webcpu-easel/REFERENCE.md`. Run `bun run check`. If installing as a local Codex plugin, use `dist/codex/plugin/webcpu-agent-skill` after packaging.
-```
-
-### OpenCode
-
-```text
-Install the WebCPU EASEL.js skill from <path-to-webcpu-agent-skill> into OpenCode for <path-to-target-project>. Run `bun run check`, then copy or register `dist/opencode/templates/skills/webcpu-easel` using the OpenCode skill location configured on this machine. Use root `AGENTS.md` as the project guidance source.
-```
-
-### GitHub Copilot / Copilot CLI
-
-```text
-Configure GitHub Copilot for <path-to-target-project> using <path-to-webcpu-agent-skill>. Run `bun run check`, copy or adapt `.github/copilot-instructions.md` as repository instructions, and use `llms.txt` as compact prompt context for Copilot CLI if the CLI does not ingest repository instructions automatically.
-```
-
-### Cursor
-
-```text
-Configure Cursor for <path-to-target-project> using <path-to-webcpu-agent-skill>. Run `bun run check`, then copy or adapt `.cursor/rules/webcpu-easel.mdc` into the target project. Keep `alwaysApply: true` if the project should always use EASEL.js grounding.
-```
-
-### Gemini CLI
-
-```text
-Configure Gemini CLI for <path-to-target-project> using <path-to-webcpu-agent-skill>. Run `bun run check`, then use `GEMINI.md` as the Gemini entry file; it imports `AGENTS.md` with `@./AGENTS.md`. Keep `AGENTS.md` beside it or update the import path.
-```
-
-### Zed
-
-```text
-Configure Zed for <path-to-target-project> using <path-to-webcpu-agent-skill>. Run `bun run check`, then copy or adapt `.rules` into the target project root. Treat `.rules` as generated from `AGENTS.md`; do not hand-maintain divergent rules.
-```
-
-### JetBrains AI Assistant / IntelliJ / Junie
-
-```text
-Configure JetBrains AI Assistant and Junie for <path-to-target-project> using <path-to-webcpu-agent-skill>. Run `bun run check`, copy or adapt `.aiassistant/rules/webcpu-easel.md` for AI Assistant, and copy or adapt `.junie/AGENTS.md` for Junie. Keep root `AGENTS.md` as the canonical fallback.
-```
-
-### Cline
-
-```text
-Configure Cline for <path-to-target-project> using <path-to-webcpu-agent-skill>. Run `bun run check`, then copy or adapt `.clinerules/00-webcpu-easel.md` into the target project. Keep the generated rule aligned with `AGENTS.md`.
-```
-
-### Roo Code
-
-```text
-Configure Roo Code for <path-to-target-project> using <path-to-webcpu-agent-skill>. Run `bun run check`, then copy or adapt `.roo/rules/00-webcpu-easel.md` into the target project. Keep the generated rule aligned with `AGENTS.md`.
-```
-
-### Augment / Auggie CLI
-
-```text
-Configure Augment or Auggie CLI for <path-to-target-project> using <path-to-webcpu-agent-skill>. Run `bun run check`, then copy or adapt `.augment/rules/webcpu-easel.md`. Also keep root `AGENTS.md` available because Augment discovers repository guidance hierarchically.
-```
-
-### Amp / Neovim
-
-```text
-Configure Amp or an Amp-backed Neovim workflow for <path-to-target-project> using <path-to-webcpu-agent-skill>. Run `bun run check`, then use root `AGENTS.md` as the primary instruction file and `llms.txt` as compact context. Neovim has no single universal AI-rule format, so wire these files into the active plugin or CLI adapter.
+Install WebCPU EASEL.js for Codex without cloning. Prefer the hosted repo marketplace at `xsyetopz/webcpu-agent-skill` (`.agents/plugins/marketplace.json`, plugin path `plugins/webcpu-agent-skill`). If this Codex build cannot add repo marketplaces, run: `curl -fsSL https://raw.githubusercontent.com/xsyetopz/webcpu-agent-skill/main/install.sh | sh -s -- --target codex`. Verify the plugin contains `.codex-plugin/plugin.json` and `skills/webcpu-easel/SKILL.md`.
 ```
 
 ### Generic LLM
 
 ```text
-Use <path-to-webcpu-agent-skill> as context for generating EASEL.js code. Read `llms.txt` first, then `AGENTS.md`, then `source/skills/webcpu-easel/REFERENCE.md`. Use `@xsyetopz/easel@0.4.5` as the baseline. If an API is not verified by the references or installed declarations, answer `UNKNOWN` instead of inventing behavior.
+Use WebCPU EASEL.js context from https://github.com/xsyetopz/webcpu-agent-skill. Read `llms.txt`, then `AGENTS.md`, then `source/skills/webcpu-easel/REFERENCE.md`. Use `@xsyetopz/easel@0.5.0` as the baseline. If an API is not verified by the references or installed declarations, answer `UNKNOWN` with the missing symbol or behavior.
 ```
 
-## LLM Context Forms
+## EASEL.js 0.5.0 notes
 
-- `llms.txt` is the concise llmstxt.org manifest.
-- `llms-full.txt` is the expanded manifest.
-- `.build/llms/llms-ctx.txt` is generated context from required `llms.txt` links.
-- `.build/llms/llms-ctx-full.txt` is generated context from `llms-full.txt`, including `## Optional` links.
+The skill tracks `@xsyetopz/easel@0.5.0`. Important changes from the EASEL.js `CHANGELOG.md`:
 
-Generate context files:
-
-```bash
-bun run generate:llms
-```
-
-These `.build/llms` files are generated artifacts. Do not edit them by hand.
+- `renderer.sortObjects` controls THREE-style draw-call sorting.
+- Materials support `transparent`, `depthTest`, and `depthWrite`.
+- Opaque scenes use depth-buffered raster paths; transparent materials still use safe sorted/blended paths.
+- Static Object3D transform flags and renderer cache paths improve static scene traversal.
 
 ## Build
 
@@ -247,7 +140,7 @@ If dependencies are unavailable, point extraction at a local EASEL.js package:
 EASEL_PACKAGE_DIR=/path/to/node_modules/@xsyetopz/easel bun run check
 ```
 
-## Runtime Support
+## Runtime support
 
 - Browser bundlers: Vite, React, Astro, vanilla TypeScript.
 - Deno-managed browser apps: `templates/deno-browser` with `deno.json`, JSR import map, `deno check`, `deno bundle`, and static dev server task.
@@ -262,27 +155,29 @@ Generated platform files:
 - `.build/generated/opencode/templates/skills/webcpu-easel/SKILL.md`
 - `.build/generated/copilot/templates/.github/skills/webcpu-easel/SKILL.md`
 - `.build/generated/copilot/templates/.copilot/skills/webcpu-easel/SKILL.md`
+- `.build/generated/kilocode/skills/webcpu-easel/SKILL.md`
 
-Installable self-contained bundles:
+Installable bundles:
 
 - `dist/claude/`
 - `dist/codex/`
 - `dist/opencode/`
 - `dist/copilot/`
+- `dist/kilocode/`
 - `dist/.agents/plugins/marketplace.json`
 - `dist/claude/.claude-plugin/marketplace.json`
 
+Online installer archives:
+
+- `prebuilt/archives/claude.tar.gz`
+- `prebuilt/archives/codex.tar.gz`
+- `prebuilt/archives/kilocode.tar.gz`
+- `prebuilt/archives/webcpu-agent-skill-all.tar.gz`
+- `prebuilt/archives/SHA256SUMS.txt`
+
 ## CI/CD
 
-GitHub Actions validate the same surfaces that local agents use:
-
-- source checks: `bun run validate:source`, `bun run biome:check`, `bun run typecheck`, and `bun run deno:check`
-- full package checks on Linux, macOS, and Windows with `bun run check`
-- generated-surface drift checks for `AGENTS.md` wrappers, `llms.txt`, and `llms-full.txt`
-- template checks for Vite, React, Astro, voxel, and Deno browser starters with `bun run templates:check`
-- package artifact checks plus archive upload from `dist/archives/`
-
-Release workflow runs on `v*` tags and publishes Claude, Codex, OpenCode, Copilot, all-platform archives, and `SHA256SUMS.txt` as GitHub Release assets.
+GitHub Actions validate source checks, full package checks on Linux/macOS/Windows, generated-surface drift, template checks, package archives, and release archives.
 
 Local release-equivalent check:
 
@@ -302,7 +197,7 @@ git push origin v0.1.0
 
 ## Grounding contract
 
-Use `@xsyetopz/easel@0.4.5` as the baseline. If a requested API is not in `source/skills/webcpu-easel/reference/api-index.md` or `class-signatures.md`, inspect installed package types before generating code. If still absent, say `UNKNOWN` with the missing symbol or behavior instead of inventing an API.
+Use `@xsyetopz/easel@0.5.0` as the baseline. If a requested API is not in `source/skills/webcpu-easel/reference/api-index.md` or `class-signatures.md`, inspect installed package types before generating code. If still absent, say `UNKNOWN` with the missing symbol or behavior instead of inventing an API.
 
 ## Contributing
 
@@ -310,16 +205,6 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for workflow, validation, generated-surfa
 
 All contributors must follow [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md).
 
-## Star History
-
-<a href="https://www.star-history.com/?repos=xsyetopz%2Fwebcpu-agent-skill&type=date&logscale=&legend=top-left">
- <picture>
-   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=xsyetopz/webcpu-agent-skill&type=date&theme=dark&logscale&legend=top-left" />
-   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=xsyetopz/webcpu-agent-skill&type=date&logscale&legend=top-left" />
-   <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=xsyetopz/webcpu-agent-skill&type=date&logscale&legend=top-left" />
- </picture>
-</a>
-
-# License
+## License
 
 [MIT](LICENSE)

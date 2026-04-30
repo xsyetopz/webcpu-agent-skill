@@ -76,11 +76,13 @@ const SUPPORT_SOURCES = [
 		notes: "Workspace rules directory; Cline also detects root AGENTS.md.",
 	},
 	{
-		tool: "Roo Code",
-		path: ".roo/rules/00-webcpu-easel.md",
-		mode: "generated materialized rules",
-		source: "https://docs.roocode.com/features/custom-instructions",
-		notes: "Workspace rules directory for Roo-compatible custom instructions.",
+		tool: "KiloCode Legacy",
+		path: "dist/kilocode/skills/webcpu-easel or .kilocode/skills/webcpu-easel",
+		mode: "packaged skill",
+		source:
+			"https://github.com/Kilo-Org/kilocode/blob/main/packages/opencode/src/kilocode/docs/migration.md",
+		notes:
+			"Kilo discovers project skills from .kilocode/skills and global skills from ~/.kilocode/skills; install.sh copies the packaged skill into the requested project.",
 	},
 	{
 		tool: "Augment",
@@ -213,10 +215,6 @@ async function expectedFiles() {
 		[
 			".clinerules/00-webcpu-easel.md",
 			materializedInstructions("Cline Workspace Rule", canonical),
-		],
-		[
-			".roo/rules/00-webcpu-easel.md",
-			materializedInstructions("Roo Code Workspace Rule", canonical),
 		],
 		[".augment/rules/webcpu-easel.md", augmentRule(canonical)],
 		["docs/agent-platforms.md", supportMatrix()],

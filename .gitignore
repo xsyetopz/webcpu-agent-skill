@@ -4,7 +4,9 @@ node_modules/
 # generated artifacts
 .build/
 dist/
-.agents/
+.agents/*
+!.agents/plugins/
+!.agents/plugins/marketplace.json
 
 # package/build caches
 .cache/
@@ -12,3 +14,9 @@ dist/
 
 # OS/editor
 .DS_Store
+
+# tracked online installer archives
+!prebuilt/
+!prebuilt/archives/
+!prebuilt/archives/*.tar.gz
+!prebuilt/archives/SHA256SUMS.txt

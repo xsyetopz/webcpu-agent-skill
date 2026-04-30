@@ -65,12 +65,17 @@ const REQUIRED_AGENT_FILES = [
 	".aiassistant/rules/webcpu-easel.md",
 	".junie/AGENTS.md",
 	".clinerules/00-webcpu-easel.md",
-	".roo/rules/00-webcpu-easel.md",
 	".augment/rules/webcpu-easel.md",
+	".claude-plugin/marketplace.json",
+	".agents/plugins/marketplace.json",
 	"docs/agent-platforms.md",
 ];
 const GENERATED_AGENT_FILES = REQUIRED_AGENT_FILES.filter(
-	(file) => file !== "AGENTS.md" && !file.startsWith("llms"),
+	(file) =>
+		file !== "AGENTS.md" &&
+		!file.startsWith("llms") &&
+		!file.startsWith(".claude-plugin") &&
+		!file.startsWith(".agents"),
 );
 const GENERATED_SKILLS = [
 	"claude/skills/webcpu-easel/SKILL.md",
@@ -78,6 +83,7 @@ const GENERATED_SKILLS = [
 	"opencode/templates/skills/webcpu-easel/SKILL.md",
 	"copilot/templates/.github/skills/webcpu-easel/SKILL.md",
 	"copilot/templates/.copilot/skills/webcpu-easel/SKILL.md",
+	"kilocode/skills/webcpu-easel/SKILL.md",
 ];
 const TYPE_IMPORT_PREFIX_RE = /^type\s+/;
 const EXPORT_ALIAS_RE = /\s+as\s+.*/;
@@ -141,6 +147,8 @@ const PACKAGED_SKILL_DIRS = [
 	"opencode/templates/skills/webcpu-easel",
 	"copilot/templates/.github/skills/webcpu-easel",
 	"copilot/templates/.copilot/skills/webcpu-easel",
+	"kilocode/skills/webcpu-easel",
+	"plugins/webcpu-agent-skill/skills/webcpu-easel",
 ];
 const CI_FILES = [
 	".github/workflows/ci.yml",
@@ -168,6 +176,15 @@ const CI_REQUIRED_COMMANDS = [
 ];
 /** @type {[string, number][]} */
 const RELEASE_REQUIRED_ACTIONS = [["softprops/action-gh-release", 2]];
+const PREBUILT_ARCHIVE_FILES = [
+	"claude.tar.gz",
+	"codex.tar.gz",
+	"opencode.tar.gz",
+	"copilot.tar.gz",
+	"kilocode.tar.gz",
+	"webcpu-agent-skill-all.tar.gz",
+	"SHA256SUMS.txt",
+];
 
 /** @param {string} path @returns {Promise<string>} */
 async function read(path) {
@@ -248,8 +265,9 @@ async function validateNoForbiddenSourceText() {
 		".aiassistant",
 		".junie",
 		".clinerules",
-		".roo",
 		".augment",
+		".claude-plugin",
+		"plugins",
 		"docs",
 	]) {
 		const rootPath = join(ROOT, root);
@@ -382,7 +400,7 @@ async function validateDenoSupport() {
 	assert(existsSync(denoHtml), "missing Deno template index.html");
 	const config = JSON.parse(await read(denoJson));
 	assert(
-		config.imports?.["@xsyetopz/easel"] === "jsr:@xsyetopz/easel@0.4.5",
+		config.imports?.["@xsyetopz/easel"] === "jsr:@xsyetopz/easel@0.5.0",
 		"Deno template must pin @xsyetopz/easel import",
 	);
 	const denoMainText = await read(denoMain);
@@ -396,7 +414,7 @@ async function validateDenoSupport() {
 }
 
 async function validateNoRootDuplication() {
-	for (const root of ["claude", "codex", "opencode", "copilot", ".agents"]) {
+	for (const root of ["claude", "codex", "opencode", "copilot"]) {
 		const rootPath = join(ROOT, root);
 		if (!existsSync(rootPath)) continue;
 		for (const file of await walk(rootPath)) {
@@ -413,12 +431,41 @@ async function validateNoRootDuplication() {
 }
 
 function validateSourceCleanMode() {
-	for (const generated of [".build", "dist", ".agents"]) {
+	for (const generated of [".build", "dist"]) {
 		assert(
 			!existsSync(join(ROOT, generated)),
 			`${generated} exists; run bun run clean before source-clean validation`,
 		);
 	}
+}
+
+async function validateHostedMarketplaces() {
+	const claudeMarketplacePath = join(ROOT, ".claude-plugin/marketplace.json");
+	const codexMarketplacePath = join(ROOT, ".agents/plugins/marketplace.json");
+	const pluginRoot = join(ROOT, "plugins/webcpu-agent-skill");
+	for (const file of [
+		claudeMarketplacePath,
+		codexMarketplacePath,
+		join(pluginRoot, ".claude-plugin/plugin.json"),
+		join(pluginRoot, ".codex-plugin/plugin.json"),
+		join(pluginRoot, "skills/webcpu-easel/SKILL.md"),
+	]) {
+		assert(
+			existsSync(file),
+			`missing hosted marketplace file ${relative(ROOT, file)}`,
+		);
+	}
+	const claudeMarketplace = JSON.parse(await read(claudeMarketplacePath));
+	const codexMarketplace = JSON.parse(await read(codexMarketplacePath));
+	assert(
+		claudeMarketplace.plugins?.[0]?.source === "./plugins/webcpu-agent-skill",
+		"hosted Claude marketplace must point at ./plugins/webcpu-agent-skill",
+	);
+	assert(
+		codexMarketplace.plugins?.[0]?.source?.path ===
+			"./plugins/webcpu-agent-skill",
+		"hosted Codex marketplace must point at ./plugins/webcpu-agent-skill",
+	);
 }
 
 /** @param {string} root @returns {Promise<void>} */
@@ -509,6 +556,22 @@ async function validateCiConfig() {
 	}
 }
 
+function validatePrebuiltArchives() {
+	for (const file of PREBUILT_ARCHIVE_FILES) {
+		assert(
+			existsSync(join(ROOT, "prebuilt/archives", file)),
+			`missing prebuilt archive ${file}`,
+		);
+	}
+}
+
+function validateRooSupportRemoved() {
+	assert(
+		!existsSync(join(ROOT, ".roo")),
+		"Roo Code support directory must not exist",
+	);
+}
+
 async function validateContributing() {
 	const text = await read(join(ROOT, "CONTRIBUTING.md"));
 	for (const term of COPIED_CONTRIBUTING_TERMS) {
@@ -523,7 +586,7 @@ async function validateContributing() {
 		"bun run generate:agents",
 		"bun run templates:check",
 		"bun run validate:source",
-		"@xsyetopz/easel@0.4.5",
+		"@xsyetopz/easel@0.5.0",
 	]) {
 		assert(text.includes(required), `CONTRIBUTING.md missing ${required}`);
 	}
@@ -589,6 +652,7 @@ function validateArchivesIfPresent() {
 		"codex.tar.gz",
 		"opencode.tar.gz",
 		"copilot.tar.gz",
+		"kilocode.tar.gz",
 		"webcpu-agent-skill-all.tar.gz",
 		"SHA256SUMS.txt",
 	]) {
@@ -601,7 +665,7 @@ async function validateSourceContent() {
 	/** @type {SkillJson} */
 	const meta = JSON.parse(await read(join(SKILL, "skill.json")));
 	assert(meta.name === "webcpu-easel", "skill.json name mismatch");
-	assert(meta.platforms.length === 4, "skill.json must target 4 platforms");
+	assert(meta.platforms.length === 5, "skill.json must target 5 platforms");
 	for (const ref of REQUIRED_REFERENCES) {
 		assert(
 			existsSync(join(SKILL, "reference", ref)),
@@ -610,6 +674,9 @@ async function validateSourceContent() {
 	}
 	await validateNoForbiddenSourceText();
 	await validateAgentInstructionSurfaces();
+	await validateHostedMarketplaces();
+	validatePrebuiltArchives();
+	validateRooSupportRemoved();
 	await validateCiConfig();
 	await validateContributing();
 	await validateLlmsSurfaces();
@@ -624,7 +691,7 @@ async function validateSourceContent() {
 	}
 	const apiText = await read(join(SKILL, "reference/api-index.md"));
 	assert(
-		apiText.includes("@xsyetopz/easel@0.4.5"),
+		apiText.includes("@xsyetopz/easel@0.5.0"),
 		"api-index missing baseline version",
 	);
 	const symbols = parseApiSymbols(apiText);
@@ -660,8 +727,8 @@ async function validateSourceContent() {
 		assert(existsSync(pkgPath), `missing template package ${template}`);
 		const pkg = JSON.parse(await read(pkgPath));
 		assert(
-			pkg.dependencies?.["@xsyetopz/easel"] === "0.4.5",
-			`template ${template} must pin easel 0.4.5`,
+			pkg.dependencies?.["@xsyetopz/easel"] === "0.5.0",
+			`template ${template} must pin easel 0.5.0`,
 		);
 	}
 	const refFiles = await walk(join(SKILL, "reference"));

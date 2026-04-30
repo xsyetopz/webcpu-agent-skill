@@ -1,8 +1,6 @@
 import { rm } from "node:fs/promises";
 
-for (const path of [".build", "dist", ".agents", "tsconfig.tsbuildinfo"]) {
+for (const path of [".build", "dist", "tsconfig.tsbuildinfo"]) {
 	await rm(path, { recursive: true, force: true });
 }
-console.log(
-	"Removed generated artifacts: .build, dist, .agents, tsconfig.tsbuildinfo",
-);
+console.log("Removed generated artifacts: .build, dist, tsconfig.tsbuildinfo");

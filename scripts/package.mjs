@@ -20,9 +20,10 @@ const INSTRUCTION_SURFACES = [
 	".aiassistant/rules/webcpu-easel.md",
 	".junie/AGENTS.md",
 	".clinerules/00-webcpu-easel.md",
-	".roo/rules/00-webcpu-easel.md",
 	".augment/rules/webcpu-easel.md",
 	"docs/agent-platforms.md",
+	".claude-plugin/marketplace.json",
+	".agents/plugins/marketplace.json",
 	"CONTRIBUTING.md",
 	"CODE_OF_CONDUCT.md",
 ];
@@ -76,12 +77,15 @@ async function main() {
 	}
 	await rm(DIST, { recursive: true, force: true });
 	await copy(GENERATED, DIST);
+	await copy(join(ROOT, "plugins"), join(DIST, "plugins"));
 	const skillDirs = [
 		join(DIST, "claude/skills", NAME),
 		join(DIST, "codex/plugin/webcpu-agent-skill/skills", NAME),
 		join(DIST, "opencode/templates/skills", NAME),
 		join(DIST, "copilot/templates/.github/skills", NAME),
 		join(DIST, "copilot/templates/.copilot/skills", NAME),
+		join(DIST, "kilocode/skills", NAME),
+		join(DIST, "plugins/webcpu-agent-skill/skills", NAME),
 	];
 	for (const dir of skillDirs) await packageSkill(dir);
 	await write(

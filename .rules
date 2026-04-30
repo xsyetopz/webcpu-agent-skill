@@ -16,7 +16,7 @@ Use this repository to build, install, and package the `webcpu-easel` skill for 
 
 ## Agent Contract
 
-- Baseline package: `@xsyetopz/easel@0.4.5`.
+- Baseline package: `@xsyetopz/easel@0.5.0`.
 - Prefer source-grounded code over memory.
 - If a requested API is absent from references and installed declarations, answer `UNKNOWN` with the missing symbol or behavior.
 - Do not invent WebGL, WebGPU, THREE.js, or CreateJS EaselJS APIs.
@@ -44,15 +44,15 @@ bun run generate:agents
 - `.build/generated/` -- generated platform skill files.
 - `.build/llms/` -- generated LLM aggregate context.
 - `dist/` -- self-contained installable bundles.
-- `.agents/` -- local generated marketplace state when needed.
-- `CLAUDE.md`, `GEMINI.md`, `.rules`, `.github/copilot-instructions.md`, `.cursor/rules/webcpu-easel.mdc`, `.aiassistant/rules/`, `.junie/AGENTS.md`, `.clinerules/`, `.roo/rules/`, `.augment/rules/`, and `docs/agent-platforms.md` -- generated from this file.
+- `.agents/plugins/marketplace.json` -- hosted Codex marketplace metadata.
+- `CLAUDE.md`, `GEMINI.md`, `.rules`, `.github/copilot-instructions.md`, `.cursor/rules/webcpu-easel.mdc`, `.aiassistant/rules/`, `.junie/AGENTS.md`, `.clinerules/`, `.augment/rules/`, `.claude-plugin/`, `.agents/plugins/`, `plugins/webcpu-agent-skill/`, and `docs/agent-platforms.md` -- generated from this file.
 
 Generated paths and generated instruction surfaces are artifacts. Do not edit them by hand.
 
 ## Install Targets
 
-- Codex: package plugin under `dist/codex/plugin/webcpu-agent-skill`.
-- Claude Code: package skill under `dist/claude/skills/webcpu-easel`.
+- Codex: package plugin under `dist/codex/plugin/webcpu-agent-skill`; hosted marketplace at `.agents/plugins/marketplace.json`.
+- Claude Code: package skill under `dist/claude/skills/webcpu-easel`; hosted marketplace at `.claude-plugin/marketplace.json`.
 - OpenCode: package skill under `dist/opencode/templates/skills/webcpu-easel`.
 - GitHub Copilot: repo instructions at `.github/copilot-instructions.md`; packaged skills under `dist/copilot`.
 - Gemini CLI: wrapper at `GEMINI.md`.
@@ -60,7 +60,7 @@ Generated paths and generated instruction surfaces are artifacts. Do not edit th
 - Zed: project rule at `.rules`.
 - JetBrains AI Assistant / Junie: `.aiassistant/rules/webcpu-easel.md` and `.junie/AGENTS.md`.
 - Cline: `.clinerules/00-webcpu-easel.md`.
-- Roo Code: `.roo/rules/00-webcpu-easel.md`.
+- KiloCode Legacy: package skill under `dist/kilocode/skills/webcpu-easel`; installer copies to `.kilocode/skills/webcpu-easel`.
 - Augment: `.augment/rules/webcpu-easel.md`.
 - Amp and compatible Neovim workflows: root `AGENTS.md`.
 

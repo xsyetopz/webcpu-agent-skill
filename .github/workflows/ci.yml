@@ -78,12 +78,13 @@ jobs:
         run: bun install --frozen-lockfile
       - name: Regenerate committed surfaces
         run: |
+          bun run generate
           bun run generate:agents
           bun run generate:llms
       - name: Check tracked drift
         shell: bash
         run: |
-          git diff --exit-code -- AGENTS.md CLAUDE.md GEMINI.md .github/copilot-instructions.md .cursor/rules/webcpu-easel.mdc .rules .aiassistant .junie .clinerules .roo .augment docs/agent-platforms.md llms.txt llms-full.txt
+          git diff --exit-code -- AGENTS.md CLAUDE.md GEMINI.md .github/copilot-instructions.md .cursor/rules/webcpu-easel.mdc .rules .aiassistant .junie .clinerules .augment .claude-plugin .agents plugins docs/agent-platforms.md llms.txt llms-full.txt
 
   templates:
     name: Template Validation
@@ -130,9 +131,11 @@ jobs:
           test -f dist/archives/codex.tar.gz
           test -f dist/archives/opencode.tar.gz
           test -f dist/archives/copilot.tar.gz
+          test -f dist/archives/kilocode.tar.gz
           test -f dist/archives/webcpu-agent-skill-all.tar.gz
           test -f dist/archives/SHA256SUMS.txt
           tar -tzf dist/archives/claude.tar.gz | grep '^claude/.claude-plugin/plugin.json$'
+          tar -tzf dist/archives/kilocode.tar.gz | grep '^kilocode/skills/webcpu-easel/SKILL.md$'
           tar -tzf dist/archives/codex.tar.gz | grep '^codex/plugin/webcpu-agent-skill/.codex-plugin/plugin.json$'
       - uses: actions/upload-artifact@v7
         with:

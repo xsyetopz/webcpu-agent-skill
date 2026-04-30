@@ -6,7 +6,8 @@
 		"claude",
 		"codex",
 		"opencode",
-		"copilot"
+		"copilot",
+		"kilocode"
 	],
 	"category": "Development"
 }

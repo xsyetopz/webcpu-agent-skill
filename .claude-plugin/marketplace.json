@@ -1,0 +1,21 @@
+{
+	"name": "webcpu-agent-skill",
+	"owner": {
+		"name": "xsyetopz"
+	},
+	"plugins": [
+		{
+			"name": "webcpu-agent-skill",
+			"source": "./plugins/webcpu-agent-skill",
+			"description": "EASEL.js CPU renderer skill for Claude Code",
+			"version": "0.1.0",
+			"keywords": [
+				"skills",
+				"easel",
+				"canvas2d",
+				"cpu-renderer",
+				"software-rendering"
+			]
+		}
+	]
+}

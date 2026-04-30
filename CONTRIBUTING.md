@@ -35,7 +35,7 @@ For API/reference work, also read `source/skills/webcpu-easel/reference/api-inde
 
 ## Documentation rules
 
-- Use `@xsyetopz/easel@0.4.5` as the documented baseline.
+- Use `@xsyetopz/easel@0.5.0` as the documented baseline.
 - If an EASEL.js API is not verified by references or installed declarations, write `UNKNOWN` instead of inventing behavior.
 - Keep Deno wording precise: Deno can typecheck, bundle, and serve browser code; plain Deno CLI is not a headless Canvas2D renderer.
 - Do not mention private local repositories, local filesystem paths, or private provenance in public docs.

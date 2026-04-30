@@ -1,0 +1,18 @@
+{
+	"name": "webcpu-agent-skill",
+	"version": "0.1.0",
+	"description": "EASEL.js CPU renderer skill for Codex",
+	"author": {
+		"name": "xsyetopz"
+	},
+	"repository": "https://github.com/xsyetopz/webcpu-agent-skill",
+	"license": "MIT",
+	"keywords": [
+		"skills",
+		"easel",
+		"canvas2d",
+		"cpu-renderer",
+		"software-rendering"
+	],
+	"skills": "./skills/"
+}

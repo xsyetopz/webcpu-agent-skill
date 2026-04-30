@@ -38,6 +38,7 @@ jobs:
           test -f dist/archives/codex.tar.gz
           test -f dist/archives/opencode.tar.gz
           test -f dist/archives/copilot.tar.gz
+          test -f dist/archives/kilocode.tar.gz
           test -f dist/archives/webcpu-agent-skill-all.tar.gz
           test -f dist/archives/SHA256SUMS.txt
       - name: Publish GitHub release
@@ -49,5 +50,6 @@ jobs:
             dist/archives/codex.tar.gz
             dist/archives/opencode.tar.gz
             dist/archives/copilot.tar.gz
+            dist/archives/kilocode.tar.gz
             dist/archives/webcpu-agent-skill-all.tar.gz
             dist/archives/SHA256SUMS.txt
