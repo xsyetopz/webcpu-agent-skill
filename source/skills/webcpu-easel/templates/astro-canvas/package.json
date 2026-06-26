@@ -10,7 +10,7 @@
 	},
 	"dependencies": {
 		"@xsyetopz/easel": "0.5.0",
-		"astro": "^6.1.10"
+		"astro": "^7.0.3"
 	},
 	"devDependencies": {
 		"typescript": "6.0.3"
